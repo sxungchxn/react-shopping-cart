@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    /* Base Options: */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+
+    /* If NOT transpiling with TypeScript: */
+    "moduleResolution": "Bundler",
+    "module": "Preserve",
+    "noEmit": true,
+
+
+    /* Bundler mode */
+    "allowImportingTsExtensions": true,
+    "jsx": "react-jsx",
+
+    /* Strictness, Linting */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+     /* Running in the DOM */
+    "lib": ["es2022", "dom", "dom.iterable"],
+
+    /* path alias */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+    },
+    "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"]
+  },
+  "include": ["src", "vite.config.ts", "src/routeTree.gen.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
