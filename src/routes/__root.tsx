@@ -1,16 +1,30 @@
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
+import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { Flex } from '@sxungchxn/react-payments'
+import { Link, NavBar } from '@/components'
+import { Flex, Text } from '@sxungchxn/react-payments'
 
 export const Route = createRootRoute({
   component: () => (
     <>
-      <Flex gap="4px">
-        <Link to="/">Home</Link> <Link to="/about">About</Link>
-      </Flex>
-      <hr />
+      <NavBar>
+        <Link to="/">
+          <NavBar.Logo />
+        </Link>
+        <Flex gap="16px">
+          <Link to="/cart">
+            <Text variant="body1" color="white">
+              장바구니
+            </Text>
+          </Link>
+          <Link to="/order">
+            <Text variant="body1" color="white">
+              주문목록
+            </Text>
+          </Link>
+        </Flex>
+      </NavBar>
       <Outlet />
-      <TanStackRouterDevtools />
+      <TanStackRouterDevtools position="bottom-right" />
     </>
   ),
 })
