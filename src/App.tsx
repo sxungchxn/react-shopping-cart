@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-
+import { startMocking } from '@/mocks/starter'
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
 
@@ -25,12 +25,14 @@ const queryClient = new QueryClient()
 const rootElement = document.getElementById('root')!
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
-  root.render(
-    <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools position="bottom" />
-      </QueryClientProvider>
-    </StrictMode>,
+  void startMocking().then(() =>
+    root.render(
+      <StrictMode>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+          <ReactQueryDevtools position="bottom" />
+        </QueryClientProvider>
+      </StrictMode>,
+    ),
   )
 }
