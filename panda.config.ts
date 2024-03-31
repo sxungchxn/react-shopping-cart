@@ -8,10 +8,16 @@ export default defineConfig({
   preflight: true,
 
   // Where to look for your css declarations
-  include: ['./src/**/*.{js,jsx,ts,tsx}', './pages/**/*.{js,jsx,ts,tsx}'],
+  include: [
+    './src/**/*.{js,jsx,ts,tsx}',
+    './pages/**/*.{js,jsx,ts,tsx}',
+    './src/**/*.stories.{tsx}',
+  ],
 
   // Files to exclude
   exclude: [],
+
+  plugins: [require('@pandacss/dev')],
 
   // global css
   globalCss,
@@ -20,27 +26,6 @@ export default defineConfig({
   theme: {
     extend: {
       tokens,
-      // tokens: {
-      //   colors: {
-      //     aqua: {
-      //       light: {
-      //         value: '#2AC1BC',
-      //       },
-      //       dark: {
-      //         value: '#22A6A2',
-      //       },
-      //     },
-      //     brown: { value: '#73675C' },
-      //     black: { value: '#333333' },
-      //     white: { value: '#FFFFFF' },
-      //     gray: {
-      //       100: { value: '#DDDDDD' },
-      //       300: { value: '#BBBBBB' },
-      //       500: { value: '#AAAAAA' },
-      //       700: { value: '#22A6A2' },
-      //     },
-      //   },
-      // },
       textStyles,
     },
   },
