@@ -7,8 +7,14 @@ export interface SquareButtonProps extends ButtonHTMLAttributes<HTMLButtonElemen
   color?: RecipeVariant<typeof squareButton>['color']
 }
 
-export const SquareButton = ({ size, fullWidth, color, ...props }: SquareButtonProps) => {
-  return <button {...props} className={cx(squareButton({ size, fullWidth, color }))} />
+export const SquareButton = ({
+  size,
+  fullWidth,
+  color,
+  className,
+  ...props
+}: SquareButtonProps) => {
+  return <button {...props} className={cx(squareButton({ size, fullWidth, color }), className)} />
 }
 
 const squareButton = cva({
