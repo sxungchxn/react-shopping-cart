@@ -1,6 +1,6 @@
 import db from '../../db.json'
 import { HttpResponse, PathParams, http } from 'msw'
-import { Response, Product, Cart, ProductRequest, CartRequest } from '@/types/api-type'
+import { Product, Cart, ProductRequest, CartRequest } from '@/types/api-type'
 import { isCartRequest, isProductRequest } from '@/types/type-guard'
 
 const productList: Product[] = db.products
@@ -12,9 +12,7 @@ let lastCartId = cartList.at(-1)?.id ?? cartList.length + 1
 export const handlers = [
   // product api
   http.get('/products', () => {
-    return HttpResponse.json<Response<Product[]>>({
-      response: productList,
-    })
+    return HttpResponse.json<Product[]>(productList)
   }),
 
   http.post<PathParams, ProductRequest>('/products', async ({ request }) => {
@@ -29,9 +27,7 @@ export const handlers = [
     const { id } = params
     const targetProduct = productList.find(({ id: _id }) => _id === Number(id))
     if (!targetProduct) return new HttpResponse(null, { status: 404 })
-    return HttpResponse.json<Response<Product>>({
-      response: targetProduct,
-    })
+    return HttpResponse.json<Product>(targetProduct)
   }),
 
   http.delete('/products/:id', ({ params }) => {
@@ -43,9 +39,7 @@ export const handlers = [
 
   // cart api
   http.get('/carts', () => {
-    return HttpResponse.json<Response<Cart[]>>({
-      response: cartList,
-    })
+    return HttpResponse.json<Cart[]>(cartList)
   }),
 
   http.post<PathParams, CartRequest>('/carts', async ({ request }) => {
