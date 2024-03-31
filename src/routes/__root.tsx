@@ -1,7 +1,7 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { css } from '@styled-system/css'
+import { NavBar } from '@/components'
+import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { Link, NavBar } from '@/components'
-import { Flex, Text } from '@sxungchxn/react-payments'
 
 export const Route = createRootRoute({
   component: () => (
@@ -10,18 +10,19 @@ export const Route = createRootRoute({
         <Link to="/">
           <NavBar.Logo />
         </Link>
-        <Flex gap="16px">
+        <div
+          className={css({
+            display: 'flex',
+            gap: '16px',
+          })}
+        >
           <Link to="/cart">
-            <Text variant="body1" color="white">
-              장바구니
-            </Text>
+            <span className={css({ textStyle: 'body1', color: 'white' })}>장바구니</span>
           </Link>
           <Link to="/order">
-            <Text variant="body1" color="white">
-              주문목록
-            </Text>
+            <span className={css({ textStyle: 'body1', color: 'white' })}>주문목록</span>
           </Link>
-        </Flex>
+        </div>
       </NavBar>
       <Outlet />
       <TanStackRouterDevtools position="bottom-right" />

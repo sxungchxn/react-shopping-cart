@@ -10,4 +10,4 @@ export const NavBar = InternalNavBar as NavBarComponentInterface
 
 NavBar.Logo = NavBarLogo
 
-export type { NavBarElements, NavBarProps, NavBarLogoProps } from './nav-bar'
+export type { NavBarProps, NavBarLogoProps } from './nav-bar'
