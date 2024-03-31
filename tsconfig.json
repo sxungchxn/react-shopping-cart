@@ -33,11 +33,12 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
+      "@styled-system/*": ["./styled-system/*"]
     },
 
     /* vitest, testing-library config */
     "types": ["vite/client", "vitest/globals", "@testing-library/jest-dom"]
   },
-  "include": ["src", "vite.config.ts", "src/routeTree.gen.ts"],
+  "include": ["src", "vite.config.ts", "src/routeTree.gen.ts", ".storybook/**/*", "panda.config.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
