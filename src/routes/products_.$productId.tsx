@@ -52,7 +52,6 @@ function ProductDetail() {
 const container = css({
   display: 'flex',
   width: '100%',
-  // maxWidth: '1280px',
   paddingX: '32px',
   alignItems: { base: 'center', xl: 'flex-start' },
   flexDir: { base: 'column', xl: 'row' },
