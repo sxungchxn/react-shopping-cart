@@ -11,15 +11,16 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as OrderImport } from './routes/order'
+import { Route as OrdersImport } from './routes/orders'
 import { Route as CartImport } from './routes/cart'
 import { Route as IndexImport } from './routes/index'
-import { Route as ProductsProductIdImport } from './routes/products.$productId'
+import { Route as ProductsProductIdImport } from './routes/products_.$productId'
+import { Route as OrdersOrderIdImport } from './routes/orders_.$orderId'
 
 // Create/Update Routes
 
-const OrderRoute = OrderImport.update({
-  path: '/order',
+const OrdersRoute = OrdersImport.update({
+  path: '/orders',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -38,6 +39,11 @@ const ProductsProductIdRoute = ProductsProductIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const OrdersOrderIdRoute = OrdersOrderIdImport.update({
+  path: '/$orderId',
+  getParentRoute: () => OrdersRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -50,9 +56,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CartImport
       parentRoute: typeof rootRoute
     }
-    '/order': {
-      preLoaderRoute: typeof OrderImport
+    '/orders': {
+      preLoaderRoute: typeof OrdersImport
       parentRoute: typeof rootRoute
+    }
+    '/orders/$orderId': {
+      preLoaderRoute: typeof OrdersOrderIdImport
+      parentRoute: typeof OrdersImport
     }
     '/products/$productId': {
       preLoaderRoute: typeof ProductsProductIdImport
@@ -66,7 +76,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
   CartRoute,
-  OrderRoute,
+  OrdersRoute.addChildren([OrdersOrderIdRoute]),
   ProductsProductIdRoute,
 ])
 

@@ -21,6 +21,7 @@ const config: StorybookConfig = {
       resolve: {
         alias: {
           '@/*': resolve(__dirname, '../src'),
+          '@styled-system/*': ['../styled-system/*'],
         },
       },
     })

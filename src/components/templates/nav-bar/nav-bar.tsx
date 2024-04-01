@@ -21,7 +21,7 @@ export const NavBar = (props: NavBarProps) => {
           <Link to="/cart">
             <span className={css({ textStyle: 'body1', color: 'white' })}>장바구니</span>
           </Link>
-          <Link to="/order">
+          <Link to="/orders">
             <span className={css({ textStyle: 'body1', color: 'white' })}>주문목록</span>
           </Link>
         </div>

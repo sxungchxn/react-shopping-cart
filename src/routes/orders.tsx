@@ -26,11 +26,16 @@ const OrderList = () => {
 
   return (
     <div className={vstack({ gap: '40px', width: '100%' })}>
-      {orderList.map(({ id, orderDetails }) => (
-        <OrderPanel.Root key={id}>
+      {orderList.map(({ id: orderId, orderDetails }) => (
+        <OrderPanel.Root key={orderId}>
           <OrderPanel.Header>
-            <span className={css({ textStyle: 'body2' })}>{`주문번호 : ${id}`}</span>
-            <Link to="/orders">
+            <span className={css({ textStyle: 'body2' })}>{`주문번호 : ${orderId}`}</span>
+            <Link
+              to="/orders/$orderId"
+              params={{
+                orderId: orderId.toString(),
+              }}
+            >
               <span className={css({ textStyle: 'body2' })}>{`상세보기 >`}</span>
             </Link>
           </OrderPanel.Header>

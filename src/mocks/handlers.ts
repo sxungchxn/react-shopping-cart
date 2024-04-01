@@ -57,4 +57,11 @@ export const handlers = [
   http.get('/orders', () => {
     return HttpResponse.json<Order[]>(orderList)
   }),
+
+  http.get('/orders/:id', ({ params }) => {
+    const { id } = params
+    const targetOrder = orderList.find(({ id: _id }) => _id === Number(id))
+    if (!targetOrder) return new HttpResponse(null, { status: 404 })
+    return HttpResponse.json<Order>(targetOrder)
+  }),
 ]
