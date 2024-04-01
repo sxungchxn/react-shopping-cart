@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { OrderList, OrderListRoot } from './order-list.tsx'
+import { OrderPanel, OrderPanelRoot } from './order-panel.tsx'
 import { css } from '@styled-system/css'
 
-const meta: Meta<typeof OrderListRoot> = {
-  title: 'templates/OrderListRoot',
-  component: OrderListRoot,
+const meta: Meta<typeof OrderPanelRoot> = {
+  title: 'templates/OrderPanelRoot',
+  component: OrderPanelRoot,
   tags: ['autodocs'],
 }
 
@@ -34,14 +34,14 @@ const SAMPLE_ORDER = {
 
 const Template = () => {
   return (
-    <OrderList.Root>
-      <OrderList.Header>
+    <OrderPanel.Root>
+      <OrderPanel.Header>
         <div className={css({ width: '100%' })}>주문번호 : {SAMPLE_ORDER.id}</div>
-      </OrderList.Header>
+      </OrderPanel.Header>
       {SAMPLE_ORDER.orderDetails.map(orderDetail => (
-        <OrderList.Item key={orderDetail.id} orderDetail={orderDetail} />
+        <OrderPanel.Item key={orderDetail.id} orderDetail={orderDetail} />
       ))}
-    </OrderList.Root>
+    </OrderPanel.Root>
   )
 }
 
@@ -77,14 +77,14 @@ const SAMPLE_ORDER = {
 }
 
 
-<OrderList.Root>
-      <OrderList.Header>
+<OrderPanel.Root>
+      <OrderPanel.Header>
         <div className={css({ width: '100%' })}>주문번호 : {SAMPLE_ORDER.id}</div>
-      </OrderList.Header>
+      </OrderPanel.Header>
       {SAMPLE_ORDER.orderDetails.map(orderDetail => (
-        <OrderList.Item key={orderDetail.id} orderDetail={orderDetail} />
+        <OrderPanel.Item key={orderDetail.id} orderDetail={orderDetail} />
       ))}
-</OrderList.Root>`,
+</OrderPanel.Root>`,
       },
     },
   },

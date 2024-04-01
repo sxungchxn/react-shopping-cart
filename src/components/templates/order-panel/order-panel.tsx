@@ -4,7 +4,7 @@ import { css } from '@styled-system/css'
 import { vstack, hstack } from '@styled-system/patterns'
 import { PropsWithChildren } from 'react'
 
-export const OrderListRoot = ({ children }: PropsWithChildren) => {
+export const OrderPanelRoot = ({ children }: PropsWithChildren) => {
   return (
     <div
       className={vstack({
@@ -17,7 +17,7 @@ export const OrderListRoot = ({ children }: PropsWithChildren) => {
   )
 }
 
-export const OrderListHeader = ({ children }: PropsWithChildren) => {
+export const OrderPanelHeader = ({ children }: PropsWithChildren) => {
   return (
     <div
       className={css({
@@ -35,11 +35,11 @@ export const OrderListHeader = ({ children }: PropsWithChildren) => {
   )
 }
 
-export interface OrderListItemProps extends PropsWithChildren {
+export interface OrderPanelItemProps extends PropsWithChildren {
   orderDetail: OrderDetail
 }
 
-export const OrderListItem = ({ orderDetail, children }: OrderListItemProps) => {
+export const OrderPanelItem = ({ orderDetail, children }: OrderPanelItemProps) => {
   const { quantity, name, price, imageUrl } = orderDetail
   return (
     <div
@@ -74,8 +74,8 @@ export const OrderListItem = ({ orderDetail, children }: OrderListItemProps) => 
   )
 }
 
-export const OrderList = {
-  Root: OrderListRoot,
-  Header: OrderListHeader,
-  Item: OrderListItem,
+export const OrderPanel = {
+  Root: OrderPanelRoot,
+  Header: OrderPanelHeader,
+  Item: OrderPanelItem,
 }
