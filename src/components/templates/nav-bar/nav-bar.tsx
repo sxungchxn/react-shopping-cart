@@ -31,6 +31,9 @@ export const NavBar = (props: NavBarProps) => {
 }
 
 const container = css({
+  position: 'fixed',
+  width: '100%',
+  top: 0,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',

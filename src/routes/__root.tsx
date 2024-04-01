@@ -13,6 +13,7 @@ export const Route = createRootRoute({
           justifyContent: 'center',
           flexGrow: 1,
           width: '100%',
+          marginTop: '60px',
           paddingY: '60px',
         })}
       >
