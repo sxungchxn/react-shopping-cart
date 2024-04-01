@@ -5,7 +5,14 @@ import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
 export const Route = createRootRoute({
   component: () => (
-    <div className={css({ display: 'flex', flexDirection: 'column', height: '100%' })}>
+    <div
+      className={css({
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        height: '100%',
+      })}
+    >
       <NavBar />
       <main
         className={css({
@@ -13,6 +20,7 @@ export const Route = createRootRoute({
           justifyContent: 'center',
           flexGrow: 1,
           width: '100%',
+          maxWidth: '1280px',
           marginTop: '60px',
           paddingY: '60px',
         })}
