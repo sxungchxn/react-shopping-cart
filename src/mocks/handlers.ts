@@ -1,10 +1,11 @@
 import db from '../../db.json'
 import { HttpResponse, PathParams, http } from 'msw'
-import { Product, Cart, ProductRequest, CartRequest } from '@/types/api-type'
+import { Product, Cart, ProductRequest, CartRequest, Order } from '@/types/api-type'
 import { isCartRequest, isProductRequest } from '@/types/type-guard'
 
 const productList: Product[] = db.products
 const cartList: Cart[] = db.carts
+const orderList: Order[] = db.orders
 
 let lastProductId = productList.at(-1)?.id ?? productList.length + 1
 let lastCartId = cartList.at(-1)?.id ?? cartList.length + 1
@@ -50,5 +51,10 @@ export const handlers = [
       ...apiRequest,
     })
     return new HttpResponse(null, { status: 201 })
+  }),
+
+  // orders api
+  http.get('/orders', () => {
+    return HttpResponse.json<Order[]>(orderList)
   }),
 ]

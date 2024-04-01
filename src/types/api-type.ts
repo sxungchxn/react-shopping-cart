@@ -15,13 +15,13 @@ export interface Cart {
   product: Omit<Product, 'id'>
 }
 
-export interface Order extends Product {
+export interface OrderDetail extends Product {
   quantity: number
 }
 
-export interface OrderList {
+export interface Order {
   id: number
-  orderDetails: Order[]
+  orderDetails: OrderDetail[]
 }
 
 export interface ProductRequest extends Omit<Product, 'id'> {}
