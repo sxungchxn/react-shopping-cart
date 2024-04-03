@@ -5,6 +5,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
 import { css } from '@styled-system/css'
+import { useCreateCart } from '@/mutations/cart'
 
 export const Route = createFileRoute('/products/$productId')({
   component: () => (
@@ -16,9 +17,14 @@ export const Route = createFileRoute('/products/$productId')({
 
 function ProductDetail() {
   const { productId } = Route.useParams()
-  const {
-    data: { name, imageUrl, price },
-  } = useSuspenseQuery(productDetailOption(Number(productId)))
+  const { data: product } = useSuspenseQuery(productDetailOption(Number(productId)))
+  const { name, imageUrl, price } = product
+
+  const { mutate: createCartRequest } = useCreateCart()
+
+  const handleClickCartButton = () => {
+    createCartRequest(product)
+  }
 
   return (
     <div className={container}>
@@ -41,7 +47,7 @@ function ProductDetail() {
           <span className={css({ textStyle: 'title1' })}>금액</span>
           <span className={css({ textStyle: 'title1' })}>{price.toLocaleString()}원</span>
         </div>
-        <SquareButton color="secondary">
+        <SquareButton color="secondary" onClick={handleClickCartButton}>
           <span className={css({ textStyle: 'heading2' })}>장바구니</span>
         </SquareButton>
       </div>

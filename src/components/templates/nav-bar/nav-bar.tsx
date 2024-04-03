@@ -1,7 +1,9 @@
 import { Logo } from '@/components/atoms/logo/logo'
+import { cartListOption } from '@/queries/cart'
 import { css } from '@styled-system/css'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, Suspense } from 'react'
 
 export interface NavBarProps extends HTMLAttributes<HTMLElement> {}
 
@@ -18,15 +20,24 @@ export const NavBar = (props: NavBarProps) => {
             gap: '16px',
           })}
         >
-          <Link to="/cart">
-            <span className={css({ textStyle: 'body1', color: 'white' })}>장바구니</span>
-          </Link>
+          <Suspense fallback={<span className={linkText}>장바구니</span>}>
+            <CartLink />
+          </Suspense>
           <Link to="/orders">
-            <span className={css({ textStyle: 'body1', color: 'white' })}>주문목록</span>
+            <span className={linkText}>주문목록</span>
           </Link>
         </div>
       </div>
     </nav>
+  )
+}
+
+const CartLink = () => {
+  const { data: cartList } = useSuspenseQuery(cartListOption)
+  return (
+    <Link to="/cart">
+      <span className={linkText}>{`장바구니 (${cartList.length})`}</span>
+    </Link>
   )
 }
 
@@ -50,3 +61,5 @@ const wrapper = css({
   width: '100%',
   maxWidth: '1200px',
 })
+
+const linkText = css({ textStyle: 'body1', color: 'white' })
