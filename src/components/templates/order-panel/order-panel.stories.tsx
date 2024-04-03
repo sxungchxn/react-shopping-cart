@@ -3,7 +3,7 @@ import { OrderPanel, OrderPanelRoot } from './order-panel.tsx'
 import { css } from '@styled-system/css'
 
 const meta: Meta<typeof OrderPanelRoot> = {
-  title: 'templates/OrderPanelRoot',
+  title: 'templates/OrderPanel',
   component: OrderPanelRoot,
   tags: ['autodocs'],
 }
