@@ -13,7 +13,6 @@ const highlight = cva({
   base: {
     textStyle: 'heading1',
     textDecoration: 'underline',
-    textUnderlineOffset: '-3px',
     textDecorationColor: 'token(colors.aqua.light)',
     textDecorationThickness: '6px',
     width: 'max-content',

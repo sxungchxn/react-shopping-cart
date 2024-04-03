@@ -40,8 +40,8 @@ const ProductsProductIdRoute = ProductsProductIdImport.update({
 } as any)
 
 const OrdersOrderIdRoute = OrdersOrderIdImport.update({
-  path: '/$orderId',
-  getParentRoute: () => OrdersRoute,
+  path: '/orders/$orderId',
+  getParentRoute: () => rootRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -62,7 +62,7 @@ declare module '@tanstack/react-router' {
     }
     '/orders/$orderId': {
       preLoaderRoute: typeof OrdersOrderIdImport
-      parentRoute: typeof OrdersImport
+      parentRoute: typeof rootRoute
     }
     '/products/$productId': {
       preLoaderRoute: typeof ProductsProductIdImport
@@ -76,7 +76,8 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
   CartRoute,
-  OrdersRoute.addChildren([OrdersOrderIdRoute]),
+  OrdersRoute,
+  OrdersOrderIdRoute,
   ProductsProductIdRoute,
 ])
 
