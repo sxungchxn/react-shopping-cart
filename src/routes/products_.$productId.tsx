@@ -1,4 +1,4 @@
-import { productDetailOption } from '@/queries'
+import { productDetailOption } from '@/queries/product'
 import { Image, SquareButton } from '@/components'
 import { flex } from '@styled-system/patterns'
 import { useSuspenseQuery } from '@tanstack/react-query'

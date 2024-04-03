@@ -1,7 +1,7 @@
 import { flex, grid } from '@styled-system/patterns'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Link, createFileRoute } from '@tanstack/react-router'
-import { productListOption } from '@/queries'
+import { productListOption } from '@/queries/product'
 import { ProductItem } from '@/components'
 import { Suspense } from 'react'
 
