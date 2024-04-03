@@ -12,7 +12,11 @@ export interface Product {
 
 export interface Cart {
   id: number
-  product: Omit<Product, 'id'>
+  product: Product
+}
+
+export interface CartGroupedData extends Product {
+  quantity: number
 }
 
 export interface OrderDetail extends Product {
@@ -26,6 +30,4 @@ export interface Order {
 
 export interface ProductRequest extends Omit<Product, 'id'> {}
 
-export interface CartRequest {
-  product: Omit<Product, 'id'>
-}
+export interface CartRequest extends Product {}

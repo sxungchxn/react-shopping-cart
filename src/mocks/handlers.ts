@@ -48,7 +48,7 @@ export const handlers = [
     if (!isCartRequest(apiRequest)) return new HttpResponse(null, { status: 400 })
     cartList.push({
       id: ++lastCartId,
-      ...apiRequest,
+      product: apiRequest,
     })
     return new HttpResponse(null, { status: 201 })
   }),
