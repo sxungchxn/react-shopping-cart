@@ -5,19 +5,23 @@ import { hstack, vstack } from '@styled-system/patterns'
 import { css, cx } from '@styled-system/css'
 import { LiHTMLAttributes, MouseEventHandler } from 'react'
 import { IconShoppingCart } from '@tabler/icons-react'
-import { useCreateCart } from '@/mutations/cart'
 
 export interface ProductItemProps extends LiHTMLAttributes<HTMLLIElement> {
   product: Product
+  onClickCartButton?: (product: Product) => void
 }
 
-export const ProductItem = ({ product, className, ...props }: ProductItemProps) => {
+export const ProductItem = ({
+  product,
+  className,
+  onClickCartButton,
+  ...props
+}: ProductItemProps) => {
   const { price, imageUrl: productImgUrl, name: productName } = product
-  const { mutate: createCartRequest } = useCreateCart()
 
   const handleClickCartButton: MouseEventHandler<HTMLButtonElement> = e => {
     e.preventDefault()
-    createCartRequest(product)
+    onClickCartButton?.(product)
   }
 
   return (

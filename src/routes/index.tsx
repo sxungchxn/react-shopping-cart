@@ -4,6 +4,7 @@ import { Link, createFileRoute } from '@tanstack/react-router'
 import { productListOption } from '@/queries/product'
 import { ProductItem } from '@/components'
 import { Suspense } from 'react'
+import { useCreateCart } from '@/mutations/cart'
 
 export const Route = createFileRoute('/')({
   component: Product,
@@ -26,6 +27,7 @@ function Product() {
 
 const ProductList = () => {
   const { data: productList } = useSuspenseQuery(productListOption)
+  const { mutate: createCartRequest } = useCreateCart()
 
   return (
     <ul
@@ -47,7 +49,11 @@ const ProductList = () => {
             productId: product.id.toString(),
           }}
         >
-          <ProductItem key={product.id} product={product} />
+          <ProductItem
+            key={product.id}
+            product={product}
+            onClickCartButton={() => createCartRequest(product)}
+          />
         </Link>
       ))}
     </ul>
