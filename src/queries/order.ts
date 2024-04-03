@@ -3,7 +3,7 @@ import { request } from '@/utils/request'
 import { queryOptions } from '@tanstack/react-query'
 
 export const QUERY_KEYS = {
-  ALL: 'ORDER',
+  ALL: ['ORDER'],
   LIST: () => [...QUERY_KEYS.ALL, 'LIST'],
   DETAIL: (id: number) => [...QUERY_KEYS.ALL, 'DETAIL', id],
 }
