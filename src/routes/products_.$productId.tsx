@@ -39,7 +39,7 @@ function ProductDetail() {
         </div>
         <div className={productPrice}>
           <span className={css({ textStyle: 'title1' })}>금액</span>
-          <span className={css({ textStyle: 'title1' })}>{price}원</span>
+          <span className={css({ textStyle: 'title1' })}>{price.toLocaleString()}원</span>
         </div>
         <SquareButton color="secondary">
           <span className={css({ textStyle: 'heading2' })}>장바구니</span>

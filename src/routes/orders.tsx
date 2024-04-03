@@ -4,7 +4,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { orderListOption } from '@/queries/order'
 import { Suspense } from 'react'
 import { vstack } from '@styled-system/patterns'
-import { OrderPanel, OrderPanelItem, SquareButton } from '@/components'
+import { OrderPanel, SquareButton } from '@/components'
 
 export const Route = createFileRoute('/orders')({
   component: OrderListPage,
@@ -40,11 +40,11 @@ const OrderList = () => {
             </Link>
           </OrderPanel.Header>
           {orderDetails.map(orderDetail => (
-            <OrderPanelItem key={orderDetail.id} orderDetail={orderDetail}>
+            <OrderPanel.Item key={orderDetail.id} orderDetail={orderDetail}>
               <SquareButton fullWidth={false} size="sm">
                 장바구니
               </SquareButton>
-            </OrderPanelItem>
+            </OrderPanel.Item>
           ))}
         </OrderPanel.Root>
       ))}

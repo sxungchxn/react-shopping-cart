@@ -65,7 +65,7 @@ export const OrderPanelItem = ({ orderDetail, children }: OrderPanelItemProps) =
         >
           <span className={css({ textStyle: 'body1' })}>{name}</span>
           <span className={css({ textStyle: 'caption1', color: 'gray.500' })}>
-            {price} / 수량 {quantity}개
+            {price.toLocaleString()} / 수량 {quantity}개
           </span>
         </div>
       </div>

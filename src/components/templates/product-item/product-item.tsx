@@ -44,7 +44,7 @@ export const ProductItem = ({ product, className, ...props }: ProductItemProps) 
               textStyle: 'body1',
             })}
           >
-            {price}원
+            {price.toLocaleString()}원
           </span>
         </div>
         <IconButton source={IconShoppingCart} color="black" size={30} />
