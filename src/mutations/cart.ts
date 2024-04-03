@@ -1,5 +1,5 @@
 import { QUERY_KEYS } from '@/queries/query-keys'
-import { CartRequest } from '@/types/api-type'
+import { Cart, CartRequest } from '@/types/api-type'
 import { request } from '@/utils/request'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
@@ -10,6 +10,20 @@ export const useCreateCart = () => {
       request.post('carts', {
         json: cartRequest,
       }),
+
+    onMutate: async newCartProduct => {
+      await queryClient.cancelQueries({ queryKey: QUERY_KEYS.CART.LIST() })
+      const prevCartProductList = queryClient.getQueryData(QUERY_KEYS.CART.LIST()) as Cart[]
+      queryClient.setQueryData<Cart[]>(QUERY_KEYS.CART.LIST(), prevCartList => [
+        ...(prevCartList ?? []),
+        {
+          id: prevCartList?.at(-1)?.id ?? 1,
+          product: newCartProduct,
+        },
+      ])
+      return prevCartProductList
+    },
+
     onSuccess: () => {
       void queryClient.invalidateQueries({
         queryKey: QUERY_KEYS.CART.LIST(),

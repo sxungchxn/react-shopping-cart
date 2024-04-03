@@ -50,6 +50,11 @@ export const handlers = [
       id: ++lastCartId,
       product: apiRequest,
     })
+    // 낙관적 업데이트의 효과 체감을 위해 api 응답 딜레이
+    await new Promise(resolve => {
+      setTimeout(resolve, 1500)
+    })
+
     return new HttpResponse(null, { status: 201 })
   }),
 
