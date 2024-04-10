@@ -13,7 +13,13 @@ type Story = StoryObj<typeof meta>
 
 const Template = () => {
   const [value, setValue] = useState(0)
-  return <Counter value={value} onChangeValue={setValue} />
+  return (
+    <Counter
+      value={value}
+      onIncrement={value => setValue(value)}
+      onDecrement={value => setValue(value)}
+    />
+  )
 }
 
 export const Default = {

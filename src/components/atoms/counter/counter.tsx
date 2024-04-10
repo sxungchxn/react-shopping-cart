@@ -5,7 +5,6 @@ import { HTMLAttributes } from 'react'
 
 export interface CounterProps extends HTMLAttributes<HTMLDivElement> {
   value: number
-  onChangeValue: (value: number) => void
   /** counter 최소 값 (기본 0) */
   min?: number
   /** counter 최대 값 (기본 20) */
@@ -18,7 +17,6 @@ export interface CounterProps extends HTMLAttributes<HTMLDivElement> {
 
 export const Counter = ({
   value,
-  onChangeValue,
   min = 0,
   max = 20,
   className,
@@ -28,16 +26,12 @@ export const Counter = ({
 }: CounterProps) => {
   const handleIncrement = () => {
     if (value >= max) return
-    const increasedValue = value++
-    onChangeValue(increasedValue)
-    onIncrement?.(increasedValue)
+    onIncrement?.(++value)
   }
 
   const handleDecrement = () => {
     if (value <= min) return
-    const decreasedValue = value--
-    onChangeValue(decreasedValue)
-    onDecrement?.(decreasedValue)
+    onDecrement?.(--value)
   }
 
   return (
