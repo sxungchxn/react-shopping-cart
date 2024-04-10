@@ -43,18 +43,21 @@ const ProductList = () => {
         })}
       >
         {productList?.map(product => (
-          <Link
-            to="/products/$productId"
-            params={{
-              productId: product.id.toString(),
-            }}
-          >
-            <ProductItem
-              key={product.id}
-              product={product}
-              onClickCartButton={() => createCartRequest(product)}
-            />
-          </Link>
+          <ProductItem
+            key={product.id}
+            product={product}
+            onClickCartButton={() => createCartRequest(product)}
+            renderContent={props => (
+              <Link
+                to="/products/$productId"
+                params={{
+                  productId: props.product.id.toString(),
+                }}
+              >
+                <ProductItem.Content {...props} />
+              </Link>
+            )}
+          />
         ))}
         <div ref={observerRef}></div>
       </ul>
