@@ -12,8 +12,16 @@ let lastCartId = cartList.at(-1)?.id ?? cartList.length + 1
 
 export const handlers = [
   // product api
-  http.get('/products', () => {
-    return HttpResponse.json<Product[]>(productList)
+  http.get('/products', ({ request }) => {
+    const url = new URL(request.url)
+    const searchParams = url.searchParams
+    const limitValue = Number(searchParams.get('limit') ?? 8)
+    const offsetValue = Number(searchParams.get('offset') ?? 0)
+
+    return HttpResponse.json<{ products: Product[]; totalSize: number }>({
+      products: productList.slice(offsetValue, offsetValue + limitValue),
+      totalSize: productList.length,
+    })
   }),
 
   http.post<PathParams, ProductRequest>('/products', async ({ request }) => {
