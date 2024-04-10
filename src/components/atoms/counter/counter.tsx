@@ -10,6 +10,10 @@ export interface CounterProps extends HTMLAttributes<HTMLDivElement> {
   min?: number
   /** counter 최대 값 (기본 20) */
   max?: number
+  /** 증가시 실행할 부수함수 */
+  onIncrement?: (value: number) => void
+  /** 감소시 실행할 부수함수 */
+  onDecrement?: (value: number) => void
 }
 
 export const Counter = ({
@@ -18,26 +22,32 @@ export const Counter = ({
   min = 0,
   max = 20,
   className,
+  onIncrement,
+  onDecrement,
   ...rest
 }: CounterProps) => {
   const handleIncrement = () => {
     if (value >= max) return
-    onChangeValue(value + 1)
+    const increasedValue = value++
+    onChangeValue(increasedValue)
+    onIncrement?.(increasedValue)
   }
 
   const handleDecrement = () => {
     if (value <= min) return
-    onChangeValue(value - 1)
+    const decreasedValue = value--
+    onChangeValue(decreasedValue)
+    onDecrement?.(decreasedValue)
   }
 
   return (
     <div className={cx(container, className)} {...rest}>
-      <div className={board}>{value}</div>
+      <div className={counterBoard}>{value}</div>
       <div className={buttonWrapper}>
-        <button className={button} onClick={handleIncrement}>
+        <button className={button} onClick={handleIncrement} disabled={value >= max}>
           <IconCaretUpFilled size={8} />
         </button>
-        <button className={button} onClick={handleDecrement}>
+        <button className={button} onClick={handleDecrement} disabled={value <= min}>
           <IconCaretDownFilled size={8} />
         </button>
       </div>
@@ -47,7 +57,7 @@ export const Counter = ({
 
 const container = flex({})
 
-const board = flex({
+const counterBoard = flex({
   justifyContent: 'center',
   alignItems: 'center',
   width: '72px',
