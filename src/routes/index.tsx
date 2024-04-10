@@ -59,7 +59,7 @@ const ProductList = () => {
             )}
           />
         ))}
-        <div ref={observerRef}></div>
+        <div ref={observerRef} />
       </ul>
     </div>
   )

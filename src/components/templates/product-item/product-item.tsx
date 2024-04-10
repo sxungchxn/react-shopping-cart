@@ -12,7 +12,7 @@ export interface ProductItemProps extends LiHTMLAttributes<HTMLLIElement> {
   renderContent?: (props: ProductItemContentProps) => ReactNode
 }
 
-export const _ProductItem = ({
+const _ProductItem = ({
   product,
   className,
   onClickCartButton,
