@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react'
-import { CheckBox } from './check-box'
+import { Counter } from './counter'
 import { useState } from 'react'
 
-const meta: Meta<typeof CheckBox> = {
-  title: 'atom/CheckBox',
-  component: CheckBox,
+const meta: Meta<typeof Counter> = {
+  title: 'atom/Counter',
+  component: Counter,
   tags: ['autodocs'],
 }
 
@@ -12,8 +12,8 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 const Template = () => {
-  const [checked, setChecked] = useState(false)
-  return <CheckBox checked={checked} onClick={() => setChecked(c => !c)} />
+  const [value, setValue] = useState(0)
+  return <Counter value={value} onChangeValue={setValue} />
 }
 
 export const Default = {
