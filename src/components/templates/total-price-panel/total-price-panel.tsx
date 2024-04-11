@@ -41,7 +41,9 @@ export const TotalPricePanel = () => {
           <HighlightedText size="md">결제예상금액</HighlightedText>
           <HighlightedText size="md">{totalSelectionPrice.toLocaleString()}원</HighlightedText>
         </div>
-        <SquareButton>{`주문하기(${totalSelection}개)`}</SquareButton>
+        <SquareButton
+          disabled={totalSelection === 0}
+        >{`주문하기(${totalSelection}개)`}</SquareButton>
       </div>
     </div>
   )
