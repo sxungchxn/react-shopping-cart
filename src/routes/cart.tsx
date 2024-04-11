@@ -11,6 +11,7 @@ import {
   cartSelectAtom,
   useCartProductListSelection,
   useIsAnyCartProductSelected,
+  useResetCartProductSelection,
 } from '@/atoms/cart-select-atom'
 import { useDeleteCartProductAll } from '@/mutations/delete-cart-product-all'
 import { useAtomValue } from 'jotai'
@@ -42,16 +43,20 @@ function Cart() {
 
 const CartList = () => {
   const { data: cartList } = useSuspenseQuery(cartListOption)
+
   const cartSelection = useAtomValue(cartSelectAtom)
   const isAnyCartProductSelected = useIsAnyCartProductSelected()
+
   const [isCartProductListSelected, toggleCartProductListSelection] =
     useCartProductListSelection(cartList)
 
   const { mutate: deleteSelectedCartProduct } = useDeleteCartProductAll()
+  const resetCartProductSelection = useResetCartProductSelection()
 
   const handleClickDeleteSelectedCartProductButton = () => {
     if (!confirm('선택된 상품들을 삭제하시겠습니까?')) return
     deleteSelectedCartProduct([...cartSelection])
+    resetCartProductSelection()
   }
 
   return (

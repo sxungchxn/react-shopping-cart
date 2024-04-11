@@ -1,10 +1,21 @@
 import { CartGroupedData, Product } from '@/types/api-type'
-import { atom, useAtom, useAtomValue } from 'jotai'
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai'
 
 export const cartSelectAtom = atom(new Set<number>())
 
 /** 장바구니 선택 상품 존재 유무와 관련된 상태 */
 export const useIsAnyCartProductSelected = () => useAtomValue(cartSelectAtom).size > 0
+
+/** 장바구니 선택 상태를 완전 초기화 */
+export const useResetCartProductSelection = () => {
+  const setCartSelectAtom = useSetAtom(cartSelectAtom)
+
+  const resetSelection = () => {
+    setCartSelectAtom(new Set())
+  }
+
+  return resetSelection
+}
 
 /** 장바구니 상품 단일 선택 관련 상태 */
 export const useCartProductSelection = () => {

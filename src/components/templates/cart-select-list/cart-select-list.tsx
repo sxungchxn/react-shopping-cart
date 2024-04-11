@@ -4,7 +4,7 @@ import { css } from '@styled-system/css'
 import { flex, vstack } from '@styled-system/patterns'
 import { IconTrash } from '@tabler/icons-react'
 import { Counter } from '@/components/molecules/counter/counter'
-import { useCartProductSelection } from '@/atoms/cart-select-atom'
+import { useCartProductSelection, useResetCartProductSelection } from '@/atoms/cart-select-atom'
 import { useDeleteCartProductSingle } from '@/mutations/delete-cart-product-single'
 import { useCreateCart } from '@/mutations/create-cart'
 import { useDeleteCartProductAll } from '@/mutations/delete-cart-product-all'
@@ -41,6 +41,7 @@ const CartSelectListItem = ({ cart }: CartSelectListItemProps) => {
   const { id, imageUrl, name, quantity, price } = cart
 
   const [cartSelection, toggleCartProductSelection] = useCartProductSelection()
+  const resetCartProductSelection = useResetCartProductSelection()
   const { mutate: addCartProductSingle } = useCreateCart()
   const { mutate: deleteCartProductSingle } = useDeleteCartProductSingle()
   const { mutate: deleteCartProductAll } = useDeleteCartProductAll()
@@ -60,6 +61,7 @@ const CartSelectListItem = ({ cart }: CartSelectListItemProps) => {
   const handleClickDeleteCartProductButton = () => {
     if (!confirm('선택한 상품을 삭제하시겠습니까?')) return
     deleteCartProductAll([id])
+    resetCartProductSelection()
   }
 
   return (
