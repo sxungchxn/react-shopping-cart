@@ -1,5 +1,5 @@
 import { cartListOption } from '@/queries/cart'
-import { CheckBox, SquareButton } from '@/components'
+import { CheckBox, Replace, SquareButton } from '@/components'
 import { flex } from '@styled-system/patterns'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
@@ -15,6 +15,7 @@ import {
 } from '@/atoms/cart-select-atom'
 import { useDeleteCartProductAll } from '@/mutations/delete-cart-product-all'
 import { useAtomValue } from 'jotai'
+import { IconMoodEmpty } from '@tabler/icons-react'
 
 export const Route = createFileRoute('/cart')({
   component: Cart,
@@ -74,34 +75,54 @@ const CartList = () => {
         },
       })}
     >
-      <div className={css({ flexGrow: 1 })}>
-        <div
-          className={flex({
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '36px',
-          })}
-        >
-          <div className={flex({ gap: '16px', alignItems: 'center' })}>
-            <CheckBox
-              checked={isCartProductListSelected}
-              onClick={toggleCartProductListSelection}
-            />
-            <label>{isCartProductListSelected ? '선택해제' : '전체선택'}</label>
-          </div>
-          <SquareButton
-            color="whiteGray"
-            fullWidth={false}
-            size="sm"
-            disabled={!isAnyCartProductSelected}
-            onClick={handleClickDeleteSelectedCartProductButton}
+      <Replace
+        on={cartList.length === 0}
+        fallback={
+          <div
+            className={flex({
+              flexDir: 'column',
+              gap: '24px',
+              width: '100%',
+              height: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+            })}
           >
-            상품삭제
-          </SquareButton>
+            <IconMoodEmpty size={36} />
+            <h2 className={css({ textStyle: 'heading2' })}>장바구니가 텅~ 비었어요</h2>
+          </div>
+        }
+      >
+        <div className={css({ flexGrow: 1 })}>
+          <div
+            className={flex({
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '36px',
+            })}
+          >
+            <div className={flex({ gap: '16px', alignItems: 'center' })}>
+              <CheckBox
+                checked={isCartProductListSelected}
+                onClick={toggleCartProductListSelection}
+              />
+              <label>{isCartProductListSelected ? '선택해제' : '전체선택'}</label>
+            </div>
+            <SquareButton
+              color="whiteGray"
+              fullWidth={false}
+              size="sm"
+              disabled={!isAnyCartProductSelected}
+              onClick={handleClickDeleteSelectedCartProductButton}
+            >
+              상품삭제
+            </SquareButton>
+          </div>
+
+          <CartSelectList cartList={cartList} />
         </div>
-        <CartSelectList cartList={cartList} />
-      </div>
-      <TotalPricePanel />
+        <TotalPricePanel />
+      </Replace>
     </div>
   )
 }
