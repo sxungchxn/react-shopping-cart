@@ -7,7 +7,7 @@ export interface UseCreateCartParams {
   onMutate?: () => void
 }
 
-export const useCreateCart = (params: UseCreateCartParams) => {
+export const useCreateCart = (params: UseCreateCartParams = {}) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (cartRequest: CartRequest) =>
