@@ -5,7 +5,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
 import { css } from '@styled-system/css'
-import { useCreateCart } from '@/mutations/cart'
+import { useCreateCart } from '@/mutations/create-cart'
 
 export const Route = createFileRoute('/products/$productId')({
   component: () => (

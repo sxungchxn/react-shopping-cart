@@ -2,7 +2,7 @@ import { flex, grid } from '@styled-system/patterns'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { ProductItem } from '@/components'
 import { Suspense } from 'react'
-import { useCreateCart } from '@/mutations/cart'
+import { useCreateCart } from '@/mutations/create-cart'
 import { useInfiniteScrollableProductList } from '@/hooks/use-infinite-scrollable-product-list'
 
 export const Route = createFileRoute('/')({
