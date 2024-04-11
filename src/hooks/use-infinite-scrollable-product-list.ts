@@ -3,9 +3,9 @@ import { useSuspenseInfiniteQuery } from '@tanstack/react-query'
 import { useIntersectionObserver } from './use-intersection-observer'
 import { useMemo } from 'react'
 
-export const useInfiniteScrollableProductList = () => {
+export const useInfiniteScrollableProductList = (offsetSize = 6) => {
   const { data, isFetching, hasNextPage, fetchNextPage } = useSuspenseInfiniteQuery(
-    productListOption(6),
+    productListOption(offsetSize),
   )
 
   const ref = useIntersectionObserver({
