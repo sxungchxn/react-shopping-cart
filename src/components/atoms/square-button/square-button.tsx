@@ -24,6 +24,10 @@ const squareButton = cva({
     alignItems: 'center',
     color: 'white',
     paddingX: '28px',
+    '&:disabled': {
+      backgroundColor: 'token(colors.gray.500)',
+      cursor: 'not-allowed',
+    },
   },
   variants: {
     size: {
