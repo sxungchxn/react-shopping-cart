@@ -3,7 +3,7 @@ import { Counter } from './counter'
 import { useState } from 'react'
 
 const meta: Meta<typeof Counter> = {
-  title: 'atom/Counter',
+  title: 'molecules/Counter',
   component: Counter,
   tags: ['autodocs'],
 }

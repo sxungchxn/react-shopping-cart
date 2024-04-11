@@ -1,3 +1,4 @@
+import { SquareButton } from '@/components/atoms'
 import { cx } from '@styled-system/css'
 import { flex } from '@styled-system/patterns'
 import { IconCaretDownFilled, IconCaretUpFilled } from '@tabler/icons-react'
@@ -38,12 +39,24 @@ export const Counter = ({
     <div className={cx(container, className)} {...rest}>
       <div className={counterBoard}>{value}</div>
       <div className={buttonWrapper}>
-        <button className={button} onClick={handleIncrement} disabled={value >= max}>
+        <SquareButton
+          size="xs"
+          fullWidth={false}
+          color="whiteGray"
+          disabled={value >= max}
+          onClick={handleIncrement}
+        >
           <IconCaretUpFilled size={8} />
-        </button>
-        <button className={button} onClick={handleDecrement} disabled={value <= min}>
+        </SquareButton>
+        <SquareButton
+          size="xs"
+          fullWidth={false}
+          color="whiteGray"
+          disabled={value <= min}
+          onClick={handleDecrement}
+        >
           <IconCaretDownFilled size={8} />
-        </button>
+        </SquareButton>
       </div>
     </div>
   )
@@ -61,12 +74,4 @@ const counterBoard = flex({
 
 const buttonWrapper = flex({
   flexDir: 'column',
-})
-
-const button = flex({
-  justifyContent: 'center',
-  alignItems: 'center',
-  width: '42px',
-  height: '30px',
-  border: '1px solid token(colors.gray.100)',
 })
