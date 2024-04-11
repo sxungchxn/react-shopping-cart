@@ -2,7 +2,7 @@ import { productDetailOption } from '@/queries/product'
 import { Image, SquareButton } from '@/components'
 import { flex } from '@styled-system/patterns'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Suspense } from 'react'
 import { css } from '@styled-system/css'
 import { useCreateCart } from '@/mutations/create-cart'
@@ -17,10 +17,17 @@ export const Route = createFileRoute('/products/$productId')({
 
 function ProductDetail() {
   const { productId } = Route.useParams()
+  const navigate = useNavigate()
   const { data: product } = useSuspenseQuery(productDetailOption(Number(productId)))
   const { name, imageUrl, price } = product
 
-  const { mutate: createCartRequest } = useCreateCart()
+  const { mutate: createCartRequest } = useCreateCart({
+    onMutate: () => {
+      void navigate({
+        to: '/cart',
+      })
+    },
+  })
 
   const handleClickCartButton = () => {
     createCartRequest(product)

@@ -3,7 +3,11 @@ import { Cart, CartRequest } from '@/types/api-type'
 import { request } from '@/utils/request'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-export const useCreateCart = () => {
+export interface UseCreateCartParams {
+  onMutate?: () => void
+}
+
+export const useCreateCart = (params: UseCreateCartParams) => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (cartRequest: CartRequest) =>
@@ -21,6 +25,7 @@ export const useCreateCart = () => {
           product: newCartProduct,
         },
       ])
+      params?.onMutate?.()
       return prevCartProductList
     },
 
