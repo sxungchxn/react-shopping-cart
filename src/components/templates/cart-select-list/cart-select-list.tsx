@@ -3,8 +3,11 @@ import { CheckBox, IconButton, Image } from '@/components/atoms'
 import { css } from '@styled-system/css'
 import { flex, vstack } from '@styled-system/patterns'
 import { IconTrash } from '@tabler/icons-react'
-import { Counter } from '@/components/atoms/counter/counter'
+import { Counter } from '@/components/molecules/counter/counter'
 import { useCartProductSelection } from '@/atoms/cart-select-atom'
+import { useDeleteCartProductSingle } from '@/mutations/delete-cart-product-single'
+import { useCreateCart } from '@/mutations/create-cart'
+import { useDeleteCartProductAll } from '@/mutations/delete-cart-product-all'
 
 export interface CartSelectListProps {
   cartList: CartGroupedData[]
@@ -38,9 +41,25 @@ const CartSelectListItem = ({ cart }: CartSelectListItemProps) => {
   const { id, imageUrl, name, quantity, price } = cart
 
   const [cartSelection, toggleCartProductSelection] = useCartProductSelection()
+  const { mutate: addCartProductSingle } = useCreateCart()
+  const { mutate: deleteCartProductSingle } = useDeleteCartProductSingle()
+  const { mutate: deleteCartProductAll } = useDeleteCartProductAll()
 
   const handleClickCheckbox = () => {
     toggleCartProductSelection(id)
+  }
+
+  const handleClickIncreaseButton = () => {
+    addCartProductSingle({ id, price, imageUrl, name })
+  }
+
+  const handleClickDecreaseButton = () => {
+    deleteCartProductSingle(id)
+  }
+
+  const handleClickDeleteCartProductButton = () => {
+    if (!confirm('선택한 상품을 삭제하시겠습니까?')) return
+    deleteCartProductAll([id])
   }
 
   return (
@@ -56,8 +75,19 @@ const CartSelectListItem = ({ cart }: CartSelectListItemProps) => {
       <Image src={imageUrl} size="sm" />
       <div>{name}</div>
       <div className={vstack({ marginLeft: 'auto', alignItems: 'flex-end' })}>
-        <IconButton source={IconTrash} size={24} color="gray.500" />
-        <Counter value={quantity} />
+        <IconButton
+          source={IconTrash}
+          size={24}
+          color="gray.500"
+          onClick={handleClickDeleteCartProductButton}
+        />
+        <Counter
+          min={1}
+          max={20}
+          value={quantity}
+          onIncrement={handleClickIncreaseButton}
+          onDecrement={handleClickDecreaseButton}
+        />
         <span>{(price * quantity).toLocaleString()}원</span>
       </div>
     </li>

@@ -7,7 +7,13 @@ import { Suspense } from 'react'
 import { css } from '@styled-system/css'
 import { CartSelectList } from '@/components/templates/cart-select-list/cart-select-list'
 import { TotalPricePanel } from '@/components/templates/total-price-panel/total-price-panel'
-import { useCartProductListSelection } from '@/atoms/cart-select-atom'
+import {
+  cartSelectAtom,
+  useCartProductListSelection,
+  useIsAnyCartProductSelected,
+} from '@/atoms/cart-select-atom'
+import { useDeleteCartProductAll } from '@/mutations/delete-cart-product-all'
+import { useAtomValue } from 'jotai'
 
 export const Route = createFileRoute('/cart')({
   component: Cart,
@@ -36,8 +42,17 @@ function Cart() {
 
 const CartList = () => {
   const { data: cartList } = useSuspenseQuery(cartListOption)
+  const cartSelection = useAtomValue(cartSelectAtom)
+  const isAnyCartProductSelected = useIsAnyCartProductSelected()
   const [isCartProductListSelected, toggleCartProductListSelection] =
     useCartProductListSelection(cartList)
+
+  const { mutate: deleteSelectedCartProduct } = useDeleteCartProductAll()
+
+  const handleClickDeleteSelectedCartProductButton = () => {
+    if (!confirm('선택된 상품들을 삭제하시겠습니까?')) return
+    deleteSelectedCartProduct([...cartSelection])
+  }
 
   return (
     <div
@@ -69,7 +84,13 @@ const CartList = () => {
             />
             <label>{isCartProductListSelected ? '선택해제' : '전체선택'}</label>
           </div>
-          <SquareButton color="whiteGray" fullWidth={false} size="sm">
+          <SquareButton
+            color="whiteGray"
+            fullWidth={false}
+            size="sm"
+            disabled={!isAnyCartProductSelected}
+            onClick={handleClickDeleteSelectedCartProductButton}
+          >
             상품삭제
           </SquareButton>
         </div>

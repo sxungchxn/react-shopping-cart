@@ -25,12 +25,13 @@ const squareButton = cva({
     color: 'white',
     paddingX: '28px',
     '&:disabled': {
-      backgroundColor: 'token(colors.gray.500)',
+      backgroundColor: 'token(colors.gray.300)',
       cursor: 'not-allowed',
     },
   },
   variants: {
     size: {
+      xs: { height: '30px', paddingX: '16px' },
       sm: { height: '48px' },
       md: { height: '72px' },
       lg: { height: '98px' },
@@ -49,7 +50,7 @@ const squareButton = cva({
       },
       whiteGray: {
         background: 'token(colors.white)',
-        border: '1px solid token(colors.gray.500)',
+        border: '1px solid token(colors.gray.100)',
         color: 'token(colors.black)',
       },
     },

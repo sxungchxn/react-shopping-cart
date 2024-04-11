@@ -1,7 +1,10 @@
 import { CartGroupedData, Product } from '@/types/api-type'
 import { atom, useAtom, useAtomValue } from 'jotai'
 
-export const cartSelectAtom = atom(new Set())
+export const cartSelectAtom = atom(new Set<number>())
+
+/** 장바구니 선택 상품 존재 유무와 관련된 상태 */
+export const useIsAnyCartProductSelected = () => useAtomValue(cartSelectAtom).size > 0
 
 /** 장바구니 상품 단일 선택 관련 상태 */
 export const useCartProductSelection = () => {

@@ -4,7 +4,7 @@ import { Product, Cart, ProductRequest, CartRequest, Order } from '@/types/api-t
 import { isCartRequest, isProductRequest } from '@/types/type-guard'
 
 const productList: Product[] = db.products
-const cartList: Cart[] = db.carts
+let cartList: Cart[] = db.carts
 const orderList: Order[] = db.orders
 
 let lastProductId = productList.at(-1)?.id ?? productList.length + 1
@@ -51,6 +51,7 @@ export const handlers = [
     return HttpResponse.json<Cart[]>(cartList)
   }),
 
+  // 즐겨찾기 추가 + 개수 추가
   http.post<PathParams, CartRequest>('/carts', async ({ request }) => {
     const apiRequest = await request.json()
     if (!isCartRequest(apiRequest)) return new HttpResponse(null, { status: 400 })
@@ -64,6 +65,28 @@ export const handlers = [
     })
 
     return new HttpResponse(null, { status: 201 })
+  }),
+
+  // 즐겨찾기 삭제 = 장바구니 리스트 내 해당 상품 전체 삭제
+  http.delete<PathParams, number[]>('/carts/product/all', async ({ request }) => {
+    const requestDeleteIdList = await request.json()
+    cartList = [...cartList.filter(cart => !requestDeleteIdList.includes(cart.product.id))]
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  // 즐겨찾기 개수 감소 = 장바구니 리스트 내 해당 상품 한개만 삭제
+  http.delete('/carts/product/:id', async ({ params }) => {
+    const { id: targetProductId } = params
+    const targetCart = cartList.find(cart => cart.product.id === Number(targetProductId))
+    if (!targetCart) return new HttpResponse(null, { status: 400 })
+    cartList = [...cartList.filter(cart => cart.id !== targetCart.id)]
+
+    // 낙관적 업데이트의 효과 체감을 위해 api 응답 딜레이
+    await new Promise(resolve => {
+      setTimeout(resolve, 1500)
+    })
+
+    return new HttpResponse(null, { status: 204 })
   }),
 
   // orders api

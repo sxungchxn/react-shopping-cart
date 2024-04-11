@@ -34,8 +34,10 @@ const groupingCartList = (cartList: Cart[]): CartGroupedData[] => {
       return map
     }, new Map<number, number>())
 
-  return Array.from(cartProductIdToQuantityMap.keys()).map(cartProductId => ({
-    ...(cartProductSet[cartProductId] as Product),
-    quantity: cartProductIdToQuantityMap.get(cartProductId) as number,
-  }))
+  return Array.from(cartProductIdToQuantityMap.keys())
+    .map(cartProductId => ({
+      ...(cartProductSet[cartProductId] as Product),
+      quantity: cartProductIdToQuantityMap.get(cartProductId) as number,
+    }))
+    .sort((a, b) => a.id - b.id)
 }
