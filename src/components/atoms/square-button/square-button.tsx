@@ -43,6 +43,11 @@ const squareButton = cva({
       secondary: {
         background: 'brown',
       },
+      whiteGray: {
+        background: 'token(colors.white)',
+        border: '1px solid token(colors.gray.500)',
+        color: 'token(colors.black)',
+      },
     },
   },
   defaultVariants: {
