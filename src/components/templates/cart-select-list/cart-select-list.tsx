@@ -4,6 +4,7 @@ import { css } from '@styled-system/css'
 import { flex, vstack } from '@styled-system/patterns'
 import { IconTrash } from '@tabler/icons-react'
 import { Counter } from '@/components/atoms/counter/counter'
+import { useCartProductSelection } from '@/atoms/cart-select-atom'
 
 export interface CartSelectListProps {
   cartList: CartGroupedData[]
@@ -35,6 +36,13 @@ interface CartSelectListItemProps {
 
 const CartSelectListItem = ({ cart }: CartSelectListItemProps) => {
   const { id, imageUrl, name, quantity, price } = cart
+
+  const [cartSelection, toggleCartProductSelection] = useCartProductSelection()
+
+  const handleClickCheckbox = () => {
+    toggleCartProductSelection(id)
+  }
+
   return (
     <li
       key={id}
@@ -44,7 +52,7 @@ const CartSelectListItem = ({ cart }: CartSelectListItemProps) => {
         borderBottom: '1px solid token(colors.gray.500)',
       })}
     >
-      <CheckBox />
+      <CheckBox checked={cartSelection.has(id)} onClick={handleClickCheckbox} />
       <Image src={imageUrl} size="sm" />
       <div>{name}</div>
       <div className={vstack({ marginLeft: 'auto', alignItems: 'flex-end' })}>

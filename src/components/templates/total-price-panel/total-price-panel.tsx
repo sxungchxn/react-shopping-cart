@@ -1,8 +1,14 @@
+import { useSelectedCartTotalInfo } from '@/atoms/cart-select-atom'
 import { HighlightedText, SquareButton } from '@/components/atoms'
+import { cartListOption } from '@/queries/cart'
 import { css } from '@styled-system/css'
 import { flex } from '@styled-system/patterns'
+import { useSuspenseQuery } from '@tanstack/react-query'
 
 export const TotalPricePanel = () => {
+  const { data: cartList } = useSuspenseQuery(cartListOption)
+  const [totalSelection, totalSelectionPrice] = useSelectedCartTotalInfo(cartList)
+
   return (
     <div
       className={css({
@@ -33,9 +39,9 @@ export const TotalPricePanel = () => {
       >
         <div className={flex({ justifyContent: 'space-between' })}>
           <HighlightedText size="md">결제예상금액</HighlightedText>
-          <HighlightedText size="md">21700원</HighlightedText>
+          <HighlightedText size="md">{totalSelectionPrice.toLocaleString()}원</HighlightedText>
         </div>
-        <SquareButton>주문하기(2개)</SquareButton>
+        <SquareButton>{`주문하기(${totalSelection}개)`}</SquareButton>
       </div>
     </div>
   )

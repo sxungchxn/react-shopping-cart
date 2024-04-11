@@ -7,6 +7,7 @@ import { Suspense } from 'react'
 import { css } from '@styled-system/css'
 import { CartSelectList } from '@/components/templates/cart-select-list/cart-select-list'
 import { TotalPricePanel } from '@/components/templates/total-price-panel/total-price-panel'
+import { useCartProductListSelection } from '@/atoms/cart-select-atom'
 
 export const Route = createFileRoute('/cart')({
   component: Cart,
@@ -35,6 +36,9 @@ function Cart() {
 
 const CartList = () => {
   const { data: cartList } = useSuspenseQuery(cartListOption)
+  const [isCartProductListSelected, toggleCartProductListSelection] =
+    useCartProductListSelection(cartList)
+
   return (
     <div
       className={flex({
@@ -59,8 +63,11 @@ const CartList = () => {
           })}
         >
           <div className={flex({ gap: '16px', alignItems: 'center' })}>
-            <CheckBox />
-            <label>선택해제</label>
+            <CheckBox
+              checked={isCartProductListSelected}
+              onClick={toggleCartProductListSelection}
+            />
+            <label>{isCartProductListSelected ? '선택해제' : '전체선택'}</label>
           </div>
           <SquareButton color="whiteGray" fullWidth={false} size="sm">
             상품삭제
