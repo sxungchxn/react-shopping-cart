@@ -14,13 +14,15 @@
     "test": "vitest --run",
     "test:watch": "vitest --watch",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_9488881d3ee3939"
   },
   "dependencies": {
     "@tabler/icons-react": "^2.47.0",
     "@tanstack/react-query": "^5.28.6",
     "@tanstack/react-router": "^1.22.3",
     "clsx": "^2.1.0",
+    "jotai": "^2.8.0",
     "ky": "^1.2.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
