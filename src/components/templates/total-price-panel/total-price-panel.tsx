@@ -1,4 +1,4 @@
-import { useSelectedCartTotalInfo } from '@/atoms/cart-select-atom'
+import { useSelectedCartTotalInfo } from '@/stores/hooks'
 import { HighlightedText, SquareButton } from '@/components/atoms'
 import { cartListOption } from '@/queries/cart'
 import { css } from '@styled-system/css'

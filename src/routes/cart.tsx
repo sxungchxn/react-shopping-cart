@@ -8,11 +8,11 @@ import { css } from '@styled-system/css'
 import { CartSelectList } from '@/components/templates/cart-select-list/cart-select-list'
 import { TotalPricePanel } from '@/components/templates/total-price-panel/total-price-panel'
 import {
-  cartSelectAtom,
   useCartProductListSelection,
   useIsAnyCartProductSelected,
   useResetCartProductSelection,
-} from '@/atoms/cart-select-atom'
+} from '@/stores/hooks'
+import { cartSelectAtom } from '@/stores/atoms/cart-select-atom'
 import { useDeleteCartProductAll } from '@/mutations/delete-cart-product-all'
 import { useAtomValue } from 'jotai'
 import { IconMoodEmpty } from '@tabler/icons-react'
