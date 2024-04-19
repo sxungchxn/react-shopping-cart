@@ -1,16 +1,16 @@
 import { cartListOption } from '@/queries/cart'
-import { CheckBox, Replace, SquareButton } from '@/components'
+import { CheckBox, HighlightedText, Replace, SquareButton, SquarePanel } from '@/components'
 import { flex } from '@styled-system/patterns'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { createFileRoute } from '@tanstack/react-router'
 import { Suspense } from 'react'
 import { css } from '@styled-system/css'
 import { CartSelectList } from '@/components/templates/cart-select-list/cart-select-list'
-import { TotalPricePanel } from '@/components/templates/total-price-panel/total-price-panel'
 import {
   useCartProductListSelection,
   useIsAnyCartProductSelected,
   useResetCartProductSelection,
+  useSelectedCartTotalInfo,
 } from '@/stores/hooks'
 import { cartSelectAtom } from '@/stores/atoms/cart-select-atom'
 import { useDeleteCartProductAll } from '@/mutations/delete-cart-product-all'
@@ -47,7 +47,7 @@ const CartList = () => {
 
   const cartSelection = useAtomValue(cartSelectAtom)
   const isAnyCartProductSelected = useIsAnyCartProductSelected()
-
+  const [totalSelection, totalSelectionPrice] = useSelectedCartTotalInfo(cartList)
   const [isCartProductListSelected, toggleCartProductListSelection] =
     useCartProductListSelection(cartList)
 
@@ -121,7 +121,18 @@ const CartList = () => {
 
           <CartSelectList cartList={cartList} />
         </div>
-        <TotalPricePanel />
+        <div className={flex({ flexDir: 'column', width: { lg: '400px', base: '100%' } })}>
+          <SquarePanel>결제 예상 금액</SquarePanel>
+          <SquarePanel justifyContent="space-between">
+            <div className={flex({ justifyContent: 'space-between', marginBottom: '60px' })}>
+              <HighlightedText size="md">결제예상금액</HighlightedText>
+              <HighlightedText size="md">{totalSelectionPrice.toLocaleString()}원</HighlightedText>
+            </div>
+            <SquareButton
+              disabled={totalSelection === 0}
+            >{`주문하기(${totalSelection}개)`}</SquareButton>
+          </SquarePanel>
+        </div>
       </Replace>
     </div>
   )

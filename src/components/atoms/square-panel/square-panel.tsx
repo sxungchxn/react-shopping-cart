@@ -9,15 +9,19 @@ export interface SquarePanelProps extends HTMLAttributes<HTMLDivElement> {
   height?: SystemProperties['height']
   flexDir?: SystemProperties['flexDir']
   backgroundColor?: SystemProperties['backgroundColor']
+  alignItems?: SystemProperties['alignItems']
+  justifyContent?: SystemProperties['justifyContent']
 }
 
 export const SquarePanel = ({
   padding = '30px',
-  width,
+  width = '100%',
   height = 'max-content',
   flexDir = 'column',
-  className,
   backgroundColor = 'white',
+  justifyContent,
+  alignItems,
+  className,
   ...rest
 }: SquarePanelProps) => {
   return (
@@ -30,6 +34,8 @@ export const SquarePanel = ({
           height,
           padding,
           flexDir,
+          justifyContent,
+          alignItems,
         }),
         className,
       )}
