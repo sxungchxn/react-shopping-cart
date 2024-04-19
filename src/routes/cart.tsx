@@ -2,7 +2,7 @@ import { cartListOption } from '@/queries/cart'
 import { CheckBox, HighlightedText, Replace, SquareButton, SquarePanel } from '@/components'
 import { flex } from '@styled-system/patterns'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Suspense } from 'react'
 import { css } from '@styled-system/css'
 import { CartSelectList } from '@/components/templates/cart-select-list/cart-select-list'
@@ -14,8 +14,9 @@ import {
 } from '@/stores/hooks'
 import { cartSelectAtom } from '@/stores/atoms/cart-select-atom'
 import { useDeleteCartProductAll } from '@/mutations/delete-cart-product-all'
-import { useAtomValue } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 import { IconMoodEmpty } from '@tabler/icons-react'
+import { orderPaymentAtom } from '@/stores/atoms/order-payment-atom'
 
 export const Route = createFileRoute('/cart')({
   component: Cart,
@@ -43,21 +44,45 @@ function Cart() {
 }
 
 const CartList = () => {
+  const navigate = useNavigate()
+
+  // server state
   const { data: cartList } = useSuspenseQuery(cartListOption)
 
+  // client state
   const cartSelection = useAtomValue(cartSelectAtom)
   const isAnyCartProductSelected = useIsAnyCartProductSelected()
   const [totalSelection, totalSelectionPrice] = useSelectedCartTotalInfo(cartList)
   const [isCartProductListSelected, toggleCartProductListSelection] =
     useCartProductListSelection(cartList)
-
-  const { mutate: deleteSelectedCartProduct } = useDeleteCartProductAll()
   const resetCartProductSelection = useResetCartProductSelection()
+  const setOrderPaymentProductList = useSetAtom(orderPaymentAtom)
+
+  // mutation
+  const { mutate: deleteSelectedCartProduct } = useDeleteCartProductAll()
 
   const handleClickDeleteSelectedCartProductButton = () => {
     if (!confirm('선택된 상품들을 삭제하시겠습니까?')) return
     deleteSelectedCartProduct([...cartSelection])
     resetCartProductSelection()
+  }
+
+  const handleClickOrderButton = () => {
+    // 1. 선택한 장바구니 데이터 가져오기
+    const orderProductList = cartList.filter(({ id }) => cartSelection.has(id))
+
+    // 2. 선택한 장바구니 데이터 삭제 요청 보내기
+    deleteSelectedCartProduct([...cartSelection], {
+      onSuccess: () => {
+        // 3. 선택된 장바구니 데이터 atom에 저장
+        setOrderPaymentProductList(orderProductList)
+        // 4. order-payment 페이지로 navigate
+        void navigate({
+          to: '/order-payment',
+        })
+        resetCartProductSelection()
+      },
+    })
   }
 
   return (
@@ -130,6 +155,7 @@ const CartList = () => {
             </div>
             <SquareButton
               disabled={totalSelection === 0}
+              onClick={handleClickOrderButton}
             >{`주문하기(${totalSelection}개)`}</SquareButton>
           </SquarePanel>
         </div>
