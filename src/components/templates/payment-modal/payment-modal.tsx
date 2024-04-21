@@ -9,10 +9,11 @@ import { Payments } from 'myfirstpackage-payments'
 
 export interface PaymentModalProps extends ModalProps {
   totalPrice: number
+  onClickConfirm: () => void
   onClose: () => void
 }
 
-export const PaymentModal = ({ totalPrice, onClose }: PaymentModalProps) => {
+export const PaymentModal = ({ totalPrice, onClickConfirm, onClose }: PaymentModalProps) => {
   const [isAccepted, setIsAccepted] = useState(false)
   const [openCardModal, closeCardModal] = useOverlay()
 
@@ -96,7 +97,7 @@ export const PaymentModal = ({ totalPrice, onClose }: PaymentModalProps) => {
           gap: '10px',
         })}
       >
-        <SquareButton size="sm" fullWidth disabled={!isAccepted}>
+        <SquareButton size="sm" fullWidth disabled={!isAccepted} onClick={onClickConfirm}>
           결제하기
         </SquareButton>
         <SquareButton size="sm" fullWidth color="whiteGray" onClick={onClose}>

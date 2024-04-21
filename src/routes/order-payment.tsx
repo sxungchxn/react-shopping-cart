@@ -7,11 +7,12 @@ import {
   PaymentModal,
 } from '@/components'
 import { useOverlay } from '@/hooks/use-overlay'
+import { useCreateOrder } from '@/mutations/create-order'
 import { orderPaymentAtom } from '@/stores/atoms/order-payment-atom'
 import { useOrderPaymentTotalPrice } from '@/stores/hooks'
 import { css } from '@styled-system/css'
 import { flex } from '@styled-system/patterns'
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useAtomValue } from 'jotai'
 
 export const Route = createFileRoute('/order-payment')({
@@ -112,12 +113,32 @@ const OrderPaymentProductList = () => {
 }
 
 const OrderPaymentTotalPanel = () => {
-  const [openModal, closeModal] = useOverlay()
+  const navigate = useNavigate()
   const totalPaymentOrderPrice = useOrderPaymentTotalPrice()
+  const orderPaymentProductList = useAtomValue(orderPaymentAtom)
   const isOrderPaymentProductListEmpty = useAtomValue(orderPaymentAtom).length === 0
+  const [openModal, closeModal] = useOverlay()
+  const { createOrder } = useCreateOrder()
 
   const handleClickPaymentButton = () => {
-    openModal(<PaymentModal totalPrice={totalPaymentOrderPrice} onClose={closeModal} />)
+    const handleClickPaymentConfirmButton = () => {
+      createOrder(orderPaymentProductList, {
+        onSuccess: () => {
+          closeModal()
+          void navigate({
+            to: '/orders',
+          })
+        },
+      })
+    }
+
+    openModal(
+      <PaymentModal
+        totalPrice={totalPaymentOrderPrice}
+        onClose={closeModal}
+        onClickConfirm={handleClickPaymentConfirmButton}
+      />,
+    )
   }
 
   return (
