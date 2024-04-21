@@ -87,22 +87,21 @@ export const CarouselViewport = ({ children, className, ...props }: CarouselView
         flex({
           alignItems: 'center',
           overflow: 'hidden',
-          width: viewportWidth,
-          paddingLeft,
         }),
       )}
       style={{
+        width: viewportWidth,
         paddingLeft,
       }}
     >
       <div
         className={flex({
           transition: '0.3s ease-in-out',
-          gap: itemGap,
         })}
         style={{
           width: itemContainerWidth,
           transform: itemContainerTransform,
+          gap: itemGap,
         }}
         {...props}
       >

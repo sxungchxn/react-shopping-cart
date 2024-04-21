@@ -1,4 +1,12 @@
-import { HighlightedText, Replace, SquareButton, SquarePanel, Image } from '@/components'
+import {
+  HighlightedText,
+  Replace,
+  SquareButton,
+  SquarePanel,
+  Image,
+  PaymentModal,
+} from '@/components'
+import { useOverlay } from '@/hooks/use-overlay'
 import { orderPaymentAtom } from '@/stores/atoms/order-payment-atom'
 import { useOrderPaymentTotalPrice } from '@/stores/hooks'
 import { css } from '@styled-system/css'
@@ -104,8 +112,14 @@ const OrderPaymentProductList = () => {
 }
 
 const OrderPaymentTotalPanel = () => {
+  const [openModal, closeModal] = useOverlay()
   const totalPaymentOrderPrice = useOrderPaymentTotalPrice()
   const isOrderPaymentProductListEmpty = useAtomValue(orderPaymentAtom).length === 0
+
+  const handleClickPaymentButton = () => {
+    openModal(<PaymentModal totalPrice={totalPaymentOrderPrice} onClose={closeModal} />)
+  }
+
   return (
     <div className={flex({ flexDir: 'column', width: { lg: '400px', base: '100%' } })}>
       <SquarePanel>결제 예상 금액</SquarePanel>
@@ -116,6 +130,7 @@ const OrderPaymentTotalPanel = () => {
         </div>
         <SquareButton
           disabled={isOrderPaymentProductListEmpty}
+          onClick={handleClickPaymentButton}
         >{`${totalPaymentOrderPrice.toLocaleString()}원 결제하기`}</SquareButton>
       </SquarePanel>
     </div>
