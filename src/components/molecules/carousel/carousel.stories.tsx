@@ -2,6 +2,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { Carousel } from './carousel'
 import { flex } from '@styled-system/patterns'
 import { css } from '@styled-system/css'
+import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react'
 
 const meta = {
   title: 'molecules/Carousel',
@@ -13,11 +14,11 @@ export default meta
 
 type Story = StoryObj<typeof meta>
 
-const Template = () => {
-  return (
+export const Default = {
+  render: () => (
     <Carousel itemGap="20px">
       <div className={flex({ gap: '10px' })}>
-        <Carousel.LeftNav>{`<`}</Carousel.LeftNav>
+        <Carousel.Navigate to="prev" iconSource={IconChevronLeft} size={24} />
         <Carousel.Viewport
           className={css({ height: '320px', backgroundColor: 'token(colors.gray.100)' })}
         >
@@ -30,12 +31,8 @@ const Template = () => {
             </Carousel.Item>
           ))}
         </Carousel.Viewport>
-        <Carousel.RightNav>{`>`}</Carousel.RightNav>
+        <Carousel.Navigate to="next" iconSource={IconChevronRight} size={24} />
       </div>
     </Carousel>
-  )
-}
-
-export const Default = {
-  render: Template,
+  ),
 } satisfies Story

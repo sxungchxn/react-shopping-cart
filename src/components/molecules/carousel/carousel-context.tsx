@@ -1,21 +1,11 @@
 import { Property } from '@styled-system/types/csstype'
-import {
-  Dispatch,
-  PropsWithChildren,
-  RefObject,
-  SetStateAction,
-  createContext,
-  useContext,
-} from 'react'
-
-export interface SlideHandle {
-  getSlideLength: () => number
-}
+import { Dispatch, PropsWithChildren, SetStateAction, createContext, useContext } from 'react'
 
 export interface CarouselContextValue {
+  slideLength: number
+  setSlideLength: Dispatch<SetStateAction<number>>
   slideIndex: number
   setSlideIndex: Dispatch<SetStateAction<number>>
-  slideRef: RefObject<SlideHandle>
   viewportWidth?: Property.Width
   itemWidth?: Property.Width
   itemGap?: Property.Gap

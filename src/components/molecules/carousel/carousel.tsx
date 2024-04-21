@@ -1,23 +1,21 @@
 import {
-  ButtonHTMLAttributes,
   Children,
   HTMLAttributes,
   MouseEventHandler,
   PropsWithChildren,
   isValidElement,
-  useImperativeHandle,
+  useEffect,
   useMemo,
-  useRef,
   useState,
 } from 'react'
 import {
   CarouselContextProvider,
   CarouselContextValue,
-  SlideHandle,
   useCarouselContext,
 } from './carousel-context'
 import { cx } from '@styled-system/css'
 import { flex } from '@styled-system/patterns'
+import { IconButton, IconButtonProps } from '@/components/atoms'
 
 /*------------------------------------------------------------------------------
 Carousel Component
@@ -41,19 +39,20 @@ export const CarouselRoot = ({
   viewportWidth = '300px',
   defaultSlideIndex = 0,
 }: CarouselRootProps) => {
-  const slideRef = useRef<SlideHandle>(null)
+  const [slideLength, setSlideLength] = useState(0)
   const [slideIndex, setSlideIndex] = useState(defaultSlideIndex)
 
   const contextValue = useMemo(
     () => ({
+      slideLength,
+      setSlideLength,
       slideIndex,
       setSlideIndex,
-      slideRef,
       itemWidth,
       itemGap,
       viewportWidth,
     }),
-    [slideIndex, setSlideIndex, slideRef, itemWidth, itemGap, viewportWidth],
+    [slideLength, setSlideLength, slideIndex, setSlideIndex, itemWidth, itemGap, viewportWidth],
   )
 
   return <CarouselContextProvider value={contextValue}>{children}</CarouselContextProvider>
@@ -68,7 +67,7 @@ export interface CarouselViewportProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const CarouselViewport = ({ children, className, ...props }: CarouselViewportProps) => {
-  const { slideRef, slideIndex, itemWidth, itemGap, viewportWidth } = useCarouselContext()
+  const { setSlideLength, slideIndex, itemWidth, itemGap, viewportWidth } = useCarouselContext()
   const slideItemList = Children.toArray(children).filter(isValidElement)
   const slideLength = slideItemList.length
 
@@ -77,9 +76,9 @@ export const CarouselViewport = ({ children, className, ...props }: CarouselView
   const itemContainerWidth = `calc(${slideLength} * ${viewportWidth})`
   const itemContainerTransform = `translateX(calc(-1 * ${slideIndex} * (1.5 * ${itemWidth} - 0.5 * ${viewportWidth} + ${itemGap} + ${paddingLeft}))`
 
-  useImperativeHandle(slideRef, () => ({
-    getSlideLength: () => slideLength,
-  }))
+  useEffect(() => {
+    setSlideLength(slideLength)
+  }, [])
 
   return (
     <div
@@ -125,47 +124,43 @@ export const CarouselItem = ({ className, ...props }: CarouselItemProps) => {
 }
 
 /*------------------------------------------------------------------------------
-CarouselLeftNav Component
+CarouselNavigate Component
 -------------------------------------------------------------------------------*/
-
-export interface CarouselLeftNavProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
-
-export const CarouselLeftNav = ({ onClick, ...props }: CarouselLeftNavProps) => {
-  const { slideIndex, setSlideIndex } = useCarouselContext()
-
-  const handleClickLeftNavButton: MouseEventHandler<HTMLButtonElement> = e => {
-    if (slideIndex <= 0) return
-    setSlideIndex(index => index - 1)
-    onClick?.(e)
-  }
-
-  return <button {...props} onClick={handleClickLeftNavButton} />
+export interface CarouselNavigateProps extends Omit<IconButtonProps, 'source'> {
+  to: 'prev' | 'next'
+  iconSource: IconButtonProps['source']
 }
 
-/*------------------------------------------------------------------------------
-CarouselRightNav Component
--------------------------------------------------------------------------------*/
+export const CarouselNavigate = ({ iconSource, onClick, to, ...props }: CarouselNavigateProps) => {
+  const { slideIndex, slideLength, setSlideIndex } = useCarouselContext()
 
-export interface CarouselRightNavProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
+  const prevNavigateDisabled = slideIndex <= 0
+  const nextNavigateDisabled = slideLength === undefined || slideIndex >= slideLength - 1
 
-export const CarouselRightNav = ({ onClick, ...props }: CarouselRightNavProps) => {
-  const { slideIndex, slideRef, setSlideIndex } = useCarouselContext()
-  const slideLength = slideRef.current?.getSlideLength()
-  const rightNavDisabled = slideLength !== undefined && slideIndex >= slideLength - 1
+  const navigateToPrev = () => {
+    if (prevNavigateDisabled) return
+    setSlideIndex(index => index - 1)
+  }
 
-  const handleClickRightNavButton: MouseEventHandler<HTMLButtonElement> = e => {
-    if (slideLength === undefined) return
-    if (slideIndex >= slideLength - 1) return
+  const navigateToNext = () => {
+    if (nextNavigateDisabled) return
     setSlideIndex(index => index + 1)
+  }
+
+  const handleClickNavigateButton: MouseEventHandler<HTMLButtonElement> = e => {
+    if (to === 'prev') {
+      navigateToPrev()
+    } else {
+      navigateToNext()
+    }
     onClick?.(e)
   }
 
-  return <button disabled={rightNavDisabled} {...props} onClick={handleClickRightNavButton} />
+  return <IconButton source={iconSource} onClick={handleClickNavigateButton} {...props} />
 }
 
 export const Carousel = Object.assign(CarouselRoot, {
   Viewport: CarouselViewport,
   Item: CarouselItem,
-  LeftNav: CarouselLeftNav,
-  RightNav: CarouselRightNav,
+  Navigate: CarouselNavigate,
 })
